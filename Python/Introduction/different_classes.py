@@ -115,7 +115,8 @@ class NotGate(UnaryGate):
 
     def __init__(self,n):
         UnaryGate.__init__(self,n)
-
+    
+    
     def performGateLogic(self):
         if self.getPin():
             return 0
