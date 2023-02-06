@@ -4,6 +4,8 @@
 # https://runestone.academy/ns/books/published/pythonds/index.html
 # Meant for pratice and note taking
 
+# Big O: Quadratic O(n^2)
+
 a=5     # 1
 b=61    # 1
 c=10    # 1
