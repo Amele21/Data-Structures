@@ -23,10 +23,11 @@ class Stack:
 
     def size(self):
         return len(self.items)
-	
-s = Stack()
-s.push('hello')
-s.push('true')
-# ["true", "hello"]
-print(s.pop())  # true
+
+if __name__ == "__main__":	
+    s = Stack()
+    s.push('hello')
+    s.push('true')
+    # ["true", "hello"]
+    print(s.pop())  # true
  
