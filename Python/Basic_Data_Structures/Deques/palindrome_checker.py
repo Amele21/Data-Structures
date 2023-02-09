@@ -5,7 +5,7 @@
 # Meant for pratice and note taking
 from deque_class import Deque
 
-
+# Palindrome-Checker function. String that reads the same forward and backwards.
 def palchecker(aString):
     chardeque = Deque()
 
