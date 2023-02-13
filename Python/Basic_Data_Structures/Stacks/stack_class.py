@@ -3,7 +3,7 @@
 # By Brad Miller and David Ranum, Luther College
 # https://runestone.academy/ns/books/published/pythonds/index.html
 # Meant for pratice and note taking
-
+import sys
 # top is right, base is left
 class Stack:
      def __init__(self):
@@ -39,5 +39,5 @@ if __name__ == "__main__":
     print(s.pop())      # 8.4
     print(s.pop())      # True
     print(s.size())     # 2
-
+    print(sys.path)
 
