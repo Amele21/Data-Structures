@@ -144,10 +144,13 @@ def searchFrom(maze, startRow, startColumn):
             searchFrom(maze, startRow+1, startColumn) or \
             searchFrom(maze, startRow, startColumn-1) or \
             searchFrom(maze, startRow, startColumn+1)
-            
+
+    # found is True   
     if found:
+        print('green')
         maze.updatePosition(startRow, startColumn, PART_OF_PATH)
     else:
+        print('red')
         maze.updatePosition(startRow, startColumn, DEAD_END)
     return found
 
