@@ -70,7 +70,7 @@ class HashTable:
       found = False
       position = startslot
 
-      while not found and not stop:
+      while self.slots[position] != None and not found and not stop:
          if self.slots[position] == key:
            found = True
            # Remove the data from slots and data
