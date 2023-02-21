@@ -7,6 +7,8 @@
 
 
 # O(nlogn) complexity 
+# requires extra space to hold the two halves 
+# as they are extracted with the slicing operations
 def mergeSort(alist):
     print("Splitting ",alist)
     # base case alist len is less than 1
@@ -18,9 +20,9 @@ def mergeSort(alist):
         mergeSort(lefthalf)
         mergeSort(righthalf)
 
-        i=0
-        j=0
-        k=0
+        i=0 # for lefthalf
+        j=0 # for righthalf
+        k=0 # for alist
         
         # Sort the left and right halves
         while i < len(lefthalf) and j < len(righthalf):
@@ -32,13 +34,13 @@ def mergeSort(alist):
                 j=j+1
             k=k+1
 
-        # sort left half
+        # sort left half remaining
         while i < len(lefthalf):
             alist[k]=lefthalf[i]
             i=i+1
             k=k+1
 
-        # sort right half
+        # sort right half remaining
         while j < len(righthalf):
             alist[k]=righthalf[j]
             j=j+1
