@@ -38,10 +38,10 @@ def partition(alist,first,last):
        while alist[rightmark] >= pivotvalue and rightmark >= leftmark:
            rightmark = rightmark - 1
 
-       # rightmark is greather than leftmark so stop
+       # rightmark is less than leftmark so stop
        if rightmark < leftmark:
            done = True
-       # 
+       # switch leftmark and rightmark locations
        else:
            temp = alist[leftmark]
            alist[leftmark] = alist[rightmark]
