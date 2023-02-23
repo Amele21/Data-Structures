@@ -40,15 +40,28 @@ def getRightChild(root):
     return root[2]
 
 r = BinaryTree(3)
-insertLeft(r,4)
-insertLeft(r,5)
-insertRight(r,6)
-insertRight(r,7)
-l = getLeftChild(r)
-print(l)
+print("start:", r)
 
-setRootVal(l,9)
-print(r)
-insertLeft(l,11)
-print(r)
-print(getRightChild(getRightChild(r)))
+insertLeft(r,4)
+print("insert left: ", r)
+insertLeft(r,5)
+print("insert left: ", r)
+
+insertRight(r,6)
+print("insert right: ", r)
+insertRight(r,7)
+print("insert right: ", r)
+print("complete: ", r)
+
+lc = getLeftChild(r)
+print("left child of root: ", lc)
+
+rc = getRightChild(r)
+print("right child of root: ", rc)
+
+setRootVal(lc,9)
+print("new lc root inserted:", r)
+
+insertLeft(lc,11)
+print("insert left: ", r)
+print("right child of the right child of root:", getRightChild(getRightChild(r)))
