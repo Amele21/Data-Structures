@@ -5,6 +5,8 @@
 # Meant for pratice and note taking
 # Trees
 
+# List of Lists Representation example 1
+
 myTree = \
 ['a', 
     ['b', 
