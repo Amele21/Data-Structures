@@ -45,21 +45,27 @@ def buildParseTree(fpexp):
     return eTree
 
 
+
+
 # Function evaluates parseTree
 def evaluate(parseTree):
-    # use dictionary to have symbol as key, and its function operation as value
+    # use dictionary to have symbol as key, and the value are Python's operator module
     opers = {'+':operator.add, '-':operator.sub, '*':operator.mul, '/':operator.truediv}
 
     leftC = parseTree.getLeftChild()
     rightC = parseTree.getRightChild()
 
+    # There is a at least an operator in on of the children 
     if leftC and rightC:
         fn = opers[parseTree.getRootVal()]
-        return fn(evaluate(leftC), evaluate(rightC))
+        return fn(evaluate(leftC), evaluate(rightC)) 
     
-    # base case when there is no leftC or rightC
+    # base case when there is no leftC or no rightC
+    # there is no operator
     else:
-        return parseTree.getRootVal()
+        return parseTree.getRootVal() # Returns value stored in the leaf node. 
+
+
 
 
 
