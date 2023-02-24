@@ -42,21 +42,21 @@ class BinaryTree:
     def getRootVal(self):
         return self.key
 
+if __name__ == 'main':
+    r = BinaryTree('a')
+    print("root object: ", r)
+    print("root value: ", r.getRootVal())
+    print("left child: ", r.getLeftChild())
+    print("right child: ", r.getRightChild())
+    print('\n')
 
-r = BinaryTree('a')
-print("root object: ", r)
-print("root value: ", r.getRootVal())
-print("left child: ", r.getLeftChild())
-print("right child: ", r.getRightChild())
-print('\n')
+    r.insertLeft('b')
+    print("left child(object): ", r.getLeftChild())
+    print("left child value: ", r.getLeftChild().getRootVal())
+    print('\n')
 
-r.insertLeft('b')
-print("left child(object): ", r.getLeftChild())
-print("left child value: ", r.getLeftChild().getRootVal())
-print('\n')
-
-r.insertRight('c')
-print("right child(object): ", r.getRightChild())
-print("right child value: ", r.getRightChild().getRootVal())
-r.getRightChild().setRootVal('hello')
-print("right child new value set: ", r.getRightChild().getRootVal())
+    r.insertRight('c')
+    print("right child(object): ", r.getRightChild())
+    print("right child value: ", r.getRightChild().getRootVal())
+    r.getRightChild().setRootVal('hello')
+    print("right child new value set: ", r.getRightChild().getRootVal())
