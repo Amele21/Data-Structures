@@ -7,7 +7,7 @@
 
 # Tree Traversals
 
-from nodes_and_references import BinaryTree
+from binaryTree_nodes_and_references import BinaryTree
 
 def preorder(tree):
     if tree:

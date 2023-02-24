@@ -9,7 +9,7 @@
 
 import operator
 from stack import Stack
-from nodes_and_references import BinaryTree
+from binaryTree_nodes_and_references import BinaryTree
 
 def buildParseTree(fpexp):
     fplist = fpexp.split()
@@ -66,28 +66,6 @@ def evaluate(parseTree):
         return parseTree.getRootVal() # Returns value stored in the leaf node. 
 
 
-def printexp(tree):
-    sVal = ""
-    if tree:
-        sVal = '(' + printexp(tree.getLeftChild())
-        sVal = sVal + str(tree.getRootVal())
-        sVal = sVal + printexp(tree.getRightChild())+')'
-    return sVal
-
-
-def postordereval(tree):
-    opers = {'+':operator.add, '-':operator.sub, '*':operator.mul, '/':operator.truediv}
-    res1 = None
-    res2 = None
-    if tree:
-        res1 = postordereval(tree.getLeftChild())
-        res2 = postordereval(tree.getRightChild())
-        if res1 and res2:
-            return opers[tree.getRootVal()](res1,res2)
-        else:
-            return tree.getRootVal()
-
-
 
 
 #           *
@@ -106,7 +84,4 @@ print(pt.getLeftChild().getRootVal())                   # +
 print(pt.getLeftChild().getLeftChild().getRootVal())    # 10
 print(pt.getLeftChild().getRightChild().getRootVal())   # 5
 #pt.postorder()  #defined and explained in the next section
-pe = printexp(pt)
-print("inorder: ", pe)
-po = postordereval(pt)
-print("postorder evaluation: ", po)
+
