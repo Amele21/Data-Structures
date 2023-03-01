@@ -5,9 +5,9 @@
 # Meant for pratice and note taking
 # Trees
 
-# Binary Search Tree
-# insertion and search O(N) unbalanced tree 
-
+# AVL Balanced Binary Search Tree
+# insertion and search O(logn) operation
+import sys
 
 class TreeNode:
     def __init__(self,key,val,left=None,right=None,parent=None):
@@ -16,6 +16,7 @@ class TreeNode:
         self.leftChild = left
         self.rightChild = right
         self.parent = parent
+        self.balanceFactor = 0
 
     # makes the  BinarySearchTree().root iterable 
     def __iter__(self): 
@@ -138,27 +139,122 @@ class BinarySearchTree:
     def _put(self,key,val,currentNode):
         if key < currentNode.key:
             if currentNode.hasLeftChild():
-                   self._put(key,val,currentNode.leftChild)
+                    self._put(key,val,currentNode.leftChild)
             else:
-                   # if key already exists, just change payload
-                   if currentNode.key == key:
-                       currentNode.payload = val
-                       self.size -= 1
-                   else: 
-                       currentNode.leftChild = TreeNode(key,val,parent=currentNode)
-
+                    currentNode.leftChild = TreeNode(key,val,parent=currentNode)
+                    self.updateBalance(currentNode.leftChild)
         else:
             if currentNode.hasRightChild():
-                   self._put(key,val,currentNode.rightChild)
+                    self._put(key,val,currentNode.rightChild)
             else:
-                   # if key already exists, just change payload
-                   if currentNode.key == key:
-                       currentNode.payload = val
-                       self.size -= 1
-                       
-                   else: 
-                       currentNode.rightChild = TreeNode(key,val,parent=currentNode)
+                    currentNode.rightChild = TreeNode(key,val,parent=currentNode)
+                    self.updateBalance(currentNode.rightChild)
 
+
+    # recursive helper method 
+    def updateBalance(self,node):
+        # 1st checks to see if the current node is out of balance enough to require rebalancing
+        if node.balanceFactor > 1 or node.balanceFactor < -1:
+            # rebalancing is done and no further updating to parents is required
+            self.rebalance(node)
+            return
+        
+        # the balance factor of the parent is adjusted
+        if node.parent != None:
+            if node.isLeftChild():
+                    node.parent.balanceFactor += 1
+
+            elif node.isRightChild():
+                    node.parent.balanceFactor -= 1
+
+            # algorithm continues to work its way up the tree toward the 
+            # root by recursively calling updateBalance on the parent
+            if node.parent.balanceFactor != 0:
+                    self.updateBalance(node.parent)
+
+    # 
+    def rotateLeft(self,rotRoot):
+        # create a temp variable to keep track of the new root of the subtree
+        # newroot the right child of the previous root
+        newRoot = rotRoot.rightChild
+
+        # replace the right child of the old root with the left child of the new root
+        rotRoot.rightChild = newRoot.leftChild
+
+        # new parent of the left child becomes the old root
+        if newRoot.leftChild != None:
+            newRoot.leftChild.parent = rotRoot
+
+        # set to the parent of the old root
+        newRoot.parent = rotRoot.parent
+
+        # old root was the root of the entire tree, set new root
+        if rotRoot.isRoot():
+            self.root = newRoot
+
+        else:
+            # old root is a left child, point to new root
+            if rotRoot.isLeftChild():
+                    rotRoot.parent.leftChild = newRoot
+            # old root is rith child, point to new root
+            else:
+                rotRoot.parent.rightChild = newRoot
+
+        # set the parent of the old root to be the new root
+        newRoot.leftChild = rotRoot
+        rotRoot.parent = newRoot
+
+        # update the balance factors of the old and the new root
+        rotRoot.balanceFactor = rotRoot.balanceFactor + 1 - min(newRoot.balanceFactor, 0)
+        newRoot.balanceFactor = newRoot.balanceFactor + 1 + max(rotRoot.balanceFactor, 0)
+
+
+
+    def rotateRight(self,rotRoot):
+        # create a temp variable to keep track of the new root of the subtree
+        # newroot the left child of the previous root
+        newRoot = rotRoot.leftChild
+
+        # replace the left child of the old root with the right child of the new root
+        rotRoot.leftChild = newRoot.rightChild
+
+        # new parent of the right child becomes the old root
+        if newRoot.rightChild != None:
+            newRoot.rightChild.parent = rotRoot
+
+        # set to the parent of the old root
+        newRoot.parent = rotRoot.parent
+
+
+        if rotRoot.isRoot():
+            self.root = newRoot
+
+        else:
+            if rotRoot.isRightChild():
+                    rotRoot.parent.rightChild = newRoot
+            else:
+                rotRoot.parent.leftChild = newRoot
+
+        newRoot.rightChild = rotRoot
+        rotRoot.parent = newRoot
+
+        rotRoot.balanceFactor = rotRoot.balanceFactor + 1 - min(newRoot.balanceFactor, 0)
+        newRoot.balanceFactor = newRoot.balanceFactor + 1 + max(rotRoot.balanceFactor, 0)
+
+
+    def rebalance(self,node):
+        if node.balanceFactor < 0:
+                if node.rightChild.balanceFactor > 0:
+                    self.rotateRight(node.rightChild)
+                    self.rotateLeft(node)
+                else:
+                    self.rotateLeft(node)
+        elif node.balanceFactor > 0:
+                if node.leftChild.balanceFactor < 0:
+                    self.rotateLeft(node.leftChild)
+                    self.rotateRight(node)
+                else:
+                    self.rotateRight(node)
 
     # overload the [] operator
     def __setitem__(self,k,v):
@@ -273,37 +369,40 @@ class BinarySearchTree:
                                     currentNode.rightChild.payload,
                                     currentNode.rightChild.leftChild,
                                     currentNode.rightChild.rightChild)
-
+                 
+    
+    # Print the tree
+    def printHelper(self, currPtr, indent, last):
+        if currPtr != None:
+            sys.stdout.write(indent)
+            if last:
+                sys.stdout.write("R----")
+                indent += "     "
+            else:
+                sys.stdout.write("L----")
+                indent += "|    "
+            print(currPtr.payload)
+            self.printHelper(currPtr.leftChild, indent, False)
+            self.printHelper(currPtr.rightChild, indent, True)
 
 
 
 mytree = BinarySearchTree()
 
-mytree[3]="red"
-mytree[4]="blue"
-mytree[6]="yellow"
-mytree[2]="at"
-mytree[2]="pk"
-print("mytree node: ", mytree.root.isRoot()) # True
+mytree[1]="A"
+mytree[2]="B"
+mytree[3]="C"
 
 
 
+mytree.printHelper(mytree.root, "", True)
+print("len: ", mytree.length())  # 3
+
+print("root: ", mytree.root.payload)
+print("leftChild: ", mytree.root.leftChild.payload)
+print("rightChild: ", mytree.root.rightChild.payload)
 
 
-print(mytree.length())  # 4
-print(len(mytree))      # 4
-
-print(3 in mytree)      # True
-print(8 in mytree)      # False
-print(mytree.get(4))    # blue
-print(mytree[4])        # blue
-
-del mytree[4]
-print(mytree[4])        # None
-print(len(mytree))      # 3
-
-print(mytree[2])    # pk
-print(mytree[6])    # yellow
 
 
 total = 0
@@ -311,26 +410,4 @@ print('\niterations:')
 i = iter(mytree.root)
 print(next(i))
 print(next(i))
-
-"""
-i = iter(mytree)
-j = 0
-print("\niteration start:")
-while  j < len(mytree):
-    value = next(i)
-    print(value)
-    
-    if value != None:
-        j += 1
-
-mytree[7]="green"
-mytree[8]="purple"
-print("\nStarts were left off")
 print(next(i))
-print(next(i))
-"""
-
-
-
-
-
