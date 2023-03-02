@@ -8,30 +8,38 @@
 # Graph Abstract Data Type
 
 
-
+# Represents each vertex in the graph
+# Each vertex uses a dict to keep track of the vertices to which it is connected to
+# and the weight of each edge
 class Vertex:
     def __init__(self,key):
         self.id = key
-        self.connectedTo = {}
+        self.connectedTo = {} 
 
+    # add a connection from this vertex to another
     def addNeighbor(self,nbr,weight=0):
         self.connectedTo[nbr] = weight
 
     def __str__(self):
         return str(self.id) + ' connectedTo: ' + str([x.id for x in self.connectedTo])
 
+    # Returns all of the vertices in the adjacency list, 
+    # as represented by the connectTo instance variable
     def getConnections(self):
         return self.connectedTo.keys()
 
     def getId(self):
         return self.id
 
+    # returns the weight of the edge 
+    # from this vertes to the vertex passed as a parameter
     def getWeight(self,nbr):
         return self.connectedTo[nbr]
 
 
 
-
+# Contains a dict that maps vertex names to vertex objects. 
+# Provides methods for adding vertices to a graph and connecting one vertex to another
 class Graph:
     def __init__(self):
         self.vertList = {}
@@ -43,6 +51,7 @@ class Graph:
         self.vertList[key] = newVertex
         return newVertex
 
+    # returns the names of all of the vertices in the graph
     def getVertex(self,n):
         if n in self.vertList:
             return self.vertList[n]
