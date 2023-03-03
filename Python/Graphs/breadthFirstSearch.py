@@ -5,11 +5,12 @@
 # Meant for pratice and note taking
 # Graphs
 
+# pip install pythonds
+from pythonds.graphs import Graph, Vertex
+from pythonds.basic import Queue
+
 
 # Breadth First Search
-
-
-
 def bfs(g,start):
   start.setDistance(0)
   start.setPred(None)
@@ -24,3 +25,45 @@ def bfs(g,start):
         nbr.setPred(currentVert)
         vertQueue.enqueue(nbr)
     currentVert.setColor('black')
+
+
+
+def buildGraph(wordFile):
+    d = {}
+    g = Graph()
+    wfile = open(wordFile,'r')
+
+    # create buckets of words that differ by one letter
+    for line in wfile:
+        word = line[:-1]
+        for i in range(len(word)):
+            bucket = word[:i] + '_' + word[i+1:]
+            if bucket in d:
+                d[bucket].append(word)
+            else:
+                d[bucket] = [word]
+
+    # add vertices and edges for words in the same bucket
+    for bucket in d.keys():
+        for word1 in d[bucket]:
+            for word2 in d[bucket]:
+                if word1 != word2:
+                    g.addEdge(word1,word2)
+    return g
+
+
+
+def traverse(y):
+    x = y
+    while (x.getPred()):
+        print(x.getId())
+        x = x.getPred()
+    print(x.getId())
+
+
+
+
+
+wordgraph = buildGraph("Python\Graphs\\fourLetters.txt")
+bfs(wordgraph, wordgraph.getVertex('FOOL'))
+traverse(wordgraph.getVertex('SAGE'))
